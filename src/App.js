@@ -1,23 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import {useState, useEffect} from 'react';
 
 function App() {
+  const [mousePostion, setMousePostion]= useState({x:0, y:0});
+
+  useEffect(()=>{
+    const handleMouseMove = (event) =>{
+      setMousePostion({
+        x: event.clientX,
+        y: event.clientY
+      })
+    }
+
+    document.addEventListener('mousemove', handleMouseMove);
+  
+    return () =>{
+      document.removeEventListener('mousemove', handleMouseMove);
+    }
+  },[])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h4>User Mouse Activity Tracker</h4>
+      <p>Last mouse position: X: {mousePostion.x}, Y: {mousePostion.y}</p>
     </div>
   );
 }
